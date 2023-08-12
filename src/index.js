@@ -13,6 +13,7 @@ const myForm = document.querySelector('#search-form');
 let query;
 let page = 1;
 let per_page = 40;
+let totalImg;
 
 let lightbox = new SimpleLightbox('.photo-card a', {
     captionsData: "alt",
@@ -23,7 +24,7 @@ const getRequest = async (e) => {
     const response = await axios.get(`https://pixabay.com/api/?key=38733700-96318c553c84bf90463eb3752&q=${e}&image_type=photo&orientation=horizontal&safesearch=true&per_page=${per_page}&page=${page}`);
     const data = await response.data;
     const hits = await data.hits;
-    const totalImg = await data.totalHits;
+    totalImg = await data.totalHits;
 
 
     if (!hits.length) {
@@ -31,6 +32,7 @@ const getRequest = async (e) => {
         Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
         return;
     } else {
+        Notiflix.Notify.success(`Hooray! We found ${totalImg} images`);
         loadMore.style.display = "block";
         renderGallery(hits);
         page += 1;
@@ -51,7 +53,7 @@ function onSubmit(e) {
     if (e.type === 'submit') {
         page = 1;
         gallery.innerHTML = '';
-        query = e.target.elements.searchQuery.value
+        query = e.target.elements.searchQuery.value;
     }
     getRequest(query).catch(error => { console.log("Sorry, there are no images matching your search query. Please try again.") });
 };
