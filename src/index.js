@@ -81,7 +81,20 @@ function renderGallery(hits) {
 myForm.addEventListener('submit', onSubmit);
 loadMore.addEventListener('click', onSubmit);
 
+// TEST!!!!!!!!!!!!!!!!!!!!!!!!!!!
+const testButton = document.querySelector(".test-button");
+const testDiv = document.querySelector(".test-div");
 
+function ttt(e) {
+    getTestRequest().then(req => {
+        req.data.forEach(element => {
+            console.log(element._id)
+        })
+    })
+}
 
+const getTestRequest = async (e) => {
+    return await axios.get("https://tasty-treats-backend.p.goit.global/api/categories");
+};
 
-
+testButton.addEventListener('click', ttt);
